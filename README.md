@@ -3,8 +3,8 @@
 A full-stack lending platform that covers the complete loan lifecycle — from borrower application and BRE eligibility check, through sanction and disbursement, to repayment collection. Built with Next.js 15, Express, TypeScript, and MongoDB.
 
 **Live Demo**
-- Frontend: [https://loan-management-system-xxx.vercel.app](https://loan-management-system-xxx.vercel.app)
-- Backend API: [https://lms-backend-xxx.onrender.com/api/health](https://lms-backend-xxx.onrender.com/api/health)
+- Frontend: [https://loan-management-system-frontend-85u9rvzog-adi-1805s-projects.vercel.app/](https://loan-management-system-frontend-85u9rvzog-adi-1805s-projects.vercel.app/)
+- Backend API: [https://lms-backend-zfix.onrender.com/api/health](https://lms-backend-zfix.onrender.com/api/health)
 
 ---
 
