@@ -20,6 +20,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (error) => {
+    if (!error.response) {
+      return Promise.reject(new Error('Cannot reach server. Check your network or API URL.'));
+    }
     const data = error.response?.data;
     const message = data?.message || data?.errors?.[0] || 'Something went wrong';
     const err = new Error(message) as Error & { errors?: string[] };
