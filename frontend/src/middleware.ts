@@ -28,8 +28,8 @@ const ROUTE_ROLES: { prefix: string; allowed: string[] }[] = [
 
 /**
  * Decodes the role from a JWT without verifying the signature.
+ * Also checks the exp claim so stale cookies don't cause redirect loops.
  * Signature verification still happens on every backend API call.
- * Here we only need the role for routing decisions (no security risk).
  */
 function getRoleFromToken(token: string): string | null {
   try {
@@ -37,6 +37,7 @@ function getRoleFromToken(token: string): string | null {
     const decoded = JSON.parse(
       Buffer.from(payload, 'base64url').toString('utf-8')
     );
+    if (decoded?.exp && decoded.exp * 1000 < Date.now()) return null;
     return typeof decoded?.role === 'string' ? decoded.role : null;
   } catch {
     return null;
@@ -58,9 +59,15 @@ export function middleware(request: NextRequest) {
 
   const role = getRoleFromToken(token);
 
+  // Token is present but expired or malformed — treat as unauthenticated.
+  if (!role) {
+    if (!isPublic) return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.next();
+  }
+
   // ── 2. Authenticated users on login/register → their home ─────────────────
   if (isAuthPage) {
-    const home = (role && ROLE_HOME[role]) ?? '/dashboard';
+    const home = ROLE_HOME[role] ?? '/dashboard';
     return NextResponse.redirect(new URL(home, request.url));
   }
 
