@@ -50,6 +50,8 @@ Create a new Render Web Service from this GitHub repository.
 | Build Command | `npm install --include=dev && npm run build` |
 | Start Command | `npm start` |
 
+Important: if you set **Root Directory** to `backend`, the start command must be `npm start`, not `node backend/dist/app.js`. Inside the `backend` root, the compiled entrypoint is `dist/app.js`.
+
 ### Backend Environment Variables
 
 Add these in Render:
