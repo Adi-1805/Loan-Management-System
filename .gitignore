@@ -3,5 +3,5 @@ node_modules
 .env.local
 dist
 .next
-/package.json
-/package-lock.json
+uploads/*
+!backend/uploads/.gitkeep
