@@ -47,7 +47,7 @@ Create a new Render Web Service from this GitHub repository.
 |---|---|
 | Root Directory | `backend` |
 | Runtime | `Node` |
-| Build Command | `npm install && npm run build` |
+| Build Command | `npm install --include=dev && npm run build` |
 | Start Command | `npm start` |
 
 ### Backend Environment Variables
@@ -70,6 +70,7 @@ Notes:
 
 - Render injects its own `PORT` value at runtime. Keeping `PORT=5000` is fine for local parity, but Render's assigned port takes precedence if set in the environment.
 - `CLIENT_URL` must match the deployed Vercel frontend URL exactly, including `https://`.
+- The build command installs dev dependencies because TypeScript and type packages are required during `npm run build`. The runtime still uses compiled output from `dist/` via `npm start`.
 
 ## 4. Vercel Frontend Deployment
 
