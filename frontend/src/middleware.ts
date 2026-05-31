@@ -34,9 +34,9 @@ const ROUTE_ROLES: { prefix: string; allowed: string[] }[] = [
 function getRoleFromToken(token: string): string | null {
   try {
     const payload = token.split('.')[1];
-    const decoded = JSON.parse(
-      Buffer.from(payload, 'base64url').toString('utf-8')
-    );
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
+    const decoded = JSON.parse(atob(padded));
     return typeof decoded?.role === 'string' ? decoded.role : null;
   } catch {
     return null;

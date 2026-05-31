@@ -2,7 +2,11 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { TOKEN_KEY } from '@/lib/constants';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!API_URL) {
+  throw new Error('NEXT_PUBLIC_API_URL is not configured');
+}
 
 export const api = axios.create({
   baseURL: API_URL,

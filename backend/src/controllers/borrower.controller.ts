@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth';
 import * as borrowerService from '../services/borrower.service';
 import { sendError, sendSuccess } from '../utils/apiResponse';
+import { uploadBufferToCloudinary } from '../utils/cloudinaryUpload';
 
 export const createProfile = async (
   req: AuthenticatedRequest,
@@ -28,7 +29,11 @@ export const uploadSlip = async (
       sendError(res, 'No file uploaded', 400);
       return;
     }
-    const fileUrl = `/uploads/${req.file.filename}`;
+    const uploaded = await uploadBufferToCloudinary(
+      req.file.buffer,
+      'lms/salary-slips'
+    );
+    const fileUrl = uploaded.secure_url;
     const profile = await borrowerService.uploadSalarySlip(req.user!.userId, fileUrl);
     sendSuccess(res, { profile, fileUrl }, 'Salary slip uploaded');
   } catch (err) {

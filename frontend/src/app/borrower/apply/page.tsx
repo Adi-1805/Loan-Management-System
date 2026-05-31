@@ -151,7 +151,7 @@ export default function ApplyLoanPage() {
         setLoading(false);
       })
       .catch(() => router.push('/borrower/profile'));
-  }, [router]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [router]);
 
   const onSubmit = async (data: ApplyLoanForm) => {
     setSubmitting(true);

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { User } from '../models/User';
 import { Role } from '../types';
+import { env } from '../config/env';
 
 dotenv.config();
 
@@ -18,9 +19,12 @@ const SEED_USERS = [
 const PASSWORD = 'Password@123';
 
 const seed = async () => {
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/lms';
-  await mongoose.connect(uri);
-  console.log('Connected to MongoDB');
+  if (!env.mongoUri) {
+    throw new Error('MONGODB_URI is required to run the seed script');
+  }
+
+  await mongoose.connect(env.mongoUri);
+  console.log(`Connected to MongoDB for seeding (${env.nodeEnv})`);
 
   const hashed = await bcrypt.hash(PASSWORD, 10);
 
